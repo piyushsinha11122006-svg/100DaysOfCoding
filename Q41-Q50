@@ -1,0 +1,152 @@
+// 41. swap firsrt and last digit
+#include <stdio.h>
+int main() {
+    int n, first, last, temp, pow = 1;
+    scanf("%d", &n);
+
+    temp = n;
+    last = n % 10;
+
+    while(temp >= 10){
+        temp /= 10;
+        pow *= 10;
+    }
+    first = temp;
+
+    // Remove first and last and reconstruct
+    int mid = n % pow;  
+    mid = mid / 10;
+
+    int swapped = last * pow + mid * 10 + first;
+    printf("Swapped = %d", swapped);
+}
+
+// 42. perfect number.
+#include <stdio.h>
+int main() {
+    int n, i, sum = 0;
+    scanf("%d", &n);
+
+    for(i = 1; i <= n/2; i++){
+        if(n % i == 0) sum += i;
+    }
+
+    if(sum == n) printf("Perfect Number");
+    else printf("Not Perfect");
+}
+
+// 43. strong number.
+#include <stdio.h>
+
+int main() {
+    int n, temp, r, sum = 0;
+    scanf("%d", &n);
+    temp = n;
+
+    while(n > 0){
+        r = n % 10;
+
+        int fact = 1;
+        for(int i = 1; i <= r; i++)
+            fact *= i;
+
+        sum += fact;
+        n /= 10;
+    }
+
+    if(sum == temp) printf("Strong Number");
+    else printf("Not Strong");
+}
+
+// 44. sum of series.
+#include <stdio.h>
+int main() {
+    int n, i, num = 1, den = 2;
+    float sum = 0;
+
+    scanf("%d", &n);
+
+    for(i = 1; i <= n; i++){
+        sum += (float)num / den;
+        num += 2;
+        den += 2;
+    }
+
+    printf("Sum = %.2f", sum);
+}
+
+// 45. sum of series.
+#include <stdio.h>
+int main() {
+    int n, i, num = 2, den = 3;
+    float sum = 0;
+
+    scanf("%d", &n);
+
+    for(i = 1; i <= n; i++) {
+        sum += (float)num / den;
+        num += 2;
+        den += 4;
+    }
+
+    printf("Sum = %.2f", sum);
+}
+
+// 46. print pattern.
+#include <stdio.h>
+int main() {
+    int i, j;
+    for(i = 1; i <= 5; i++){
+        for(j = 1; j <= 5; j++)
+            printf("*");
+        printf("\n");
+    }
+}
+
+// 47. pattern.
+#include <stdio.h>
+int main() {
+    int i, j;
+    for(i = 1; i <= 5; i++){
+        for(j = 1; j <= i; j++)
+            printf("*");
+        printf("\n");
+    }
+}
+
+// 48. pattern. 
+#include <stdio.h>
+int main() {
+    int i, j;
+    for(i = 1; i <= 5; i++){
+        for(j = 1; j <= i; j++)
+            printf("%d", j);
+        printf("\n");
+    }
+}
+
+// 49. pattern.
+#include <stdio.h>
+int main() {
+    int i, j, start;
+    for(i = 5; i >= 1; i--){
+        start = i;
+        for(j = start; j <= 5; j++){
+            printf("%d", j);
+        }
+        printf("\n");
+    }
+}
+
+// 50. pattern.
+#include <stdio.h>
+int main() {
+    int i, j, k;
+    for(i = 5; i >= 1; i--){
+        for(j = 5; j > i; j--)
+            printf(" ");
+        for(k = 1; k <= i; k++)
+            printf("*");
+        printf("\n");
+    }
+}
