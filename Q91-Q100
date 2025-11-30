@@ -1,0 +1,215 @@
+// 91. Remove all vowels from a string.
+#include <stdio.h>
+
+int main() {
+    char s[100], out[100];
+    scanf("%[^\n]", s);
+
+    int k=0;
+    for(int i=0; s[i]; i++) {
+        char ch=s[i];
+        ch = (ch>='A'&&ch<='Z') ? ch+32 : ch;
+        if(!(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u'))
+            out[k++] = s[i];
+    }
+    out[k]='\0';
+
+    printf("%s", out);
+    return 0;
+}
+
+// 92. Find the first repeating lowercase alphabet in a string.
+#include <stdio.h>
+
+int main() {
+    char s[100];
+    int freq[26]={0};
+    scanf("%[^\n]", s);
+
+    for(int i=0; s[i]; i++) {
+        char ch=s[i];
+        if(ch>='a' && ch<='z') {
+            freq[ch-'a']++;
+            if(freq[ch-'a']==2) {
+                printf("%c", ch);
+                return 0;
+            }
+        }
+    }
+    printf("No repeating lowercase letter");
+    return 0;
+}
+
+// 93. Check anagram.
+#include <stdio.h>
+
+int main() {
+    char a[100], b[100];
+    int f1[26]={0}, f2[26]={0};
+
+    scanf("%[^\n]", a);
+    getchar();
+    scanf("%[^\n]", b);
+
+    for(int i=0; a[i]; i++)
+        if(a[i]>='a'&&a[i]<='z') f1[a[i]-'a']++;
+
+    for(int i=0; b[i]; i++)
+        if(b[i]>='a'&&b[i]<='z') f2[b[i]-'a']++;
+
+    int flag=1;
+    for(int i=0; i<26; i++)
+        if(f1[i] != f2[i]) flag=0;
+
+    if(flag) printf("Anagram");
+    else printf("Not anagram");
+    return 0;
+}
+
+// 94. Longest word in a sentence.
+#include <stdio.h>
+
+int main() {
+    char s[200];
+    scanf("%[^\n]", s);
+
+    int maxLen=0, curr=0, endIndex=0;
+
+    for(int i=0; ; i++) {
+        if(s[i]==' ' || s[i]=='\0') {
+            if(curr > maxLen) {
+                maxLen = curr;
+                endIndex = i;
+            }
+            curr = 0;
+            if(s[i]=='\0') break;
+        } else curr++;
+    }
+
+    for(int i=endIndex-maxLen; i<endIndex; i++)
+        printf("%c", s[i]);
+
+    return 0;
+}
+
+// 95. Check rotation.
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char a[100], b[100], c[200];
+
+    scanf("%s", a);
+    scanf("%s", b);
+
+    strcpy(c, a);
+    strcat(c, a);
+
+    if(strstr(c, b))
+        printf("Rotation");
+    else
+        printf("Not rotation");
+
+    return 0;
+}
+
+// 96. Reverse each word, keep order.
+#include <stdio.h>
+
+int main() {
+    char s[200];
+    scanf("%[^\n]", s);
+
+    int start=0;
+
+    for(int i=0; ; i++) {
+        if(s[i]==' ' || s[i]=='\0') {
+            for(int j=i-1; j>=start; j--) printf("%c", s[j]);
+            if(s[i]==' ') printf(" ");
+            start = i+1;
+            if(s[i]=='\0') break;
+        }
+    }
+    return 0;
+}
+
+// 97. Print initials of a name.
+#include <stdio.h>
+
+int main() {
+    char s[100];
+    scanf("%[^\n]", s);
+
+    if(s[0] != ' ') printf("%c.", s[0]);
+
+    for(int i=1; s[i]; i++)
+        if(s[i]==' ' && s[i+1]!=' ')
+            printf("%c.", s[i+1]);
+
+    return 0;
+}
+
+// 98. Initials + surname full.
+#include <stdio.h>
+
+int main() {
+    char s[100];
+    scanf("%[^\n]", s);
+
+    int lastStart=0, i;
+    for(i=0; s[i]; i++)
+        if(s[i]==' ' && s[i+1]!=' ')
+            lastStart = i+1;
+
+    // print initials
+    printf("%c.", s[0]);
+    for(i=1; s[i]; i++)
+        if(s[i]==' ' && i+1 != lastStart)
+            printf("%c.", s[i+1]);
+
+    // surname
+    printf(" ");
+    for(i=lastStart; s[i]; i++)
+        printf("%c", s[i]);
+
+    return 0;
+}
+
+// 99. Convert dd/mm/yyyy → dd-Mon-yyyy.
+#include <stdio.h>
+
+int main() {
+    char s[20];
+    scanf("%s", s);
+
+    char *months[] = {"Jan","Feb","Mar","Apr","May","Jun",
+                      "Jul","Aug","Sep","Oct","Nov","Dec"};
+
+    int d=(s[0]-'0')*10 + (s[1]-'0');
+    int m=(s[3]-'0')*10 + (s[4]-'0');
+    int y=(s[6]-'0')*1000 + (s[7]-'0')*100 +
+          (s[8]-'0')*10   + (s[9]-'0');
+
+    printf("%02d-%s-%04d", d, months[m-1], y);
+    return 0;
+}
+
+// 100. Print all substrings
+#include <stdio.h>
+
+int main() {
+    char s[100];
+    scanf("%s", s);
+
+    int n=0;
+    while(s[n]) n++;
+
+    for(int i=0; i<n; i++) {
+        for(int j=i; j<n; j++) {
+            for(int k=i; k<=j; k++)
+                printf("%c", s[k]);
+            printf("\n");
+        }
+    }
+    return 0;
+}
