@@ -1,0 +1,279 @@
+// Q121 — Create file & write name/age using fprintf()
+#include <stdio.h>
+
+int main() {
+    FILE *fp;
+    char name[50];
+    int age;
+
+    fp = fopen("info.txt", "w");
+    if (fp == NULL) {
+        printf("Error creating file!\n");
+        return 1;
+    }
+
+    printf("Enter your name: ");
+    fgets(name, sizeof(name), stdin);
+    printf("Enter your age: ");
+    scanf("%d", &age);
+
+    fprintf(fp, "Name: %sAge: %d\n", name, age);
+    fclose(fp);
+
+    printf("Data successfully saved to info.txt\n");
+    return 0;
+}
+
+// Q122 — Read existing file using fgets()
+#include <stdio.h>
+
+int main() {
+    FILE *fp;
+    char line[100];
+
+    fp = fopen("info.txt", "r");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(fp);
+    return 0;
+}
+
+// Q123 — Count characters, words, lines
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    FILE *fp;
+    char ch;
+    int chars = 0, words = 0, lines = 0, inWord = 0;
+
+    fp = fopen("info.txt", "r");
+    if (fp == NULL) {
+        printf("File not found!\n");
+        return 1;
+    }
+
+    while ((ch = fgetc(fp)) != EOF) {
+        chars++;
+
+        if (ch == '\n')
+            lines++;
+
+        if (isspace(ch))
+            inWord = 0;
+        else if (inWord == 0) {
+            words++;
+            inWord = 1;
+        }
+    }
+
+    fclose(fp);
+
+    printf("Characters: %d\nWords: %d\nLines: %d\n", chars, words, lines);
+    return 0;
+}
+
+// Q124 — Copy file using fgetc() and fputc()
+#include <stdio.h>
+
+int main() {
+    FILE *src, *dest;
+    char srcFile[50], destFile[50];
+    int ch;
+
+    printf("Enter source filename: ");
+    scanf("%s", srcFile);
+
+    printf("Enter destination filename: ");
+    scanf("%s", destFile);
+
+    src = fopen(srcFile, "r");
+    if (src == NULL) {
+        printf("Source file not found!\n");
+        return 1;
+    }
+
+    dest = fopen(destFile, "w");
+
+    while ((ch = fgetc(src)) != EOF) {
+        fputc(ch, dest);
+    }
+
+    fclose(src);
+    fclose(dest);
+
+    printf("File copied successfully.\n");
+    return 0;
+}
+
+// Q125 — Append text to a file
+#include <stdio.h>
+
+int main() {
+    FILE *fp;
+    char text[200];
+
+    fp = fopen("info.txt", "a");
+    if (fp == NULL) {
+        printf("File not found!\n");
+        return 1;
+    }
+
+    printf("Enter text to append: ");
+    getchar(); // clear buffer
+    fgets(text, sizeof(text), stdin);
+
+    fputs(text, fp);
+    fclose(fp);
+
+    printf("Text appended successfully.\n");
+    return 0;
+}
+
+// Q126 — Check if file exists & display content
+#include <stdio.h>
+
+int main() {
+    FILE *fp;
+    char filename[50], ch;
+
+    printf("Enter filename: ");
+    scanf("%s", filename);
+
+    fp = fopen(filename, "r");
+
+    if (fp == NULL) {
+        printf("Error: File does not exist!\n");
+        return 1;
+    }
+
+    while ((ch = fgetc(fp)) != EOF)
+        putchar(ch);
+
+    fclose(fp);
+    return 0;
+}
+
+// Q127 — Convert lowercase → uppercase (input.txt → output.txt)
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    FILE *in, *out;
+    char ch;
+
+    in = fopen("input.txt", "r");
+    out = fopen("output.txt", "w");
+
+    if (!in || !out) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    while ((ch = fgetc(in)) != EOF) {
+        fputc(toupper(ch), out);
+    }
+
+    fclose(in);
+    fclose(out);
+
+    printf("Conversion complete. Check output.txt\n");
+    return 0;
+}
+
+// Q128 — Count vowels & consonants
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    FILE *fp;
+    char ch;
+    int vowels = 0, consonants = 0;
+
+    fp = fopen("info.txt", "r");
+    if (!fp) {
+        printf("File not found!\n");
+        return 1;
+    }
+
+    while ((ch = fgetc(fp)) != EOF) {
+        ch = tolower(ch);
+        if (ch >= 'a' && ch <= 'z') {
+            if (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u')
+                vowels++;
+            else
+                consonants++;
+        }
+    }
+
+    fclose(fp);
+    printf("Vowels: %d\nConsonants: %d\n", vowels, consonants);
+    return 0;
+}
+
+// Q129 — Sum & average of integers in file
+#include <stdio.h>
+
+int main() {
+    FILE *fp;
+    int num, sum = 0, count = 0;
+
+    fp = fopen("numbers.txt", "r");
+    if (!fp) {
+        printf("File not found!\n");
+        return 1;
+    }
+
+    while (fscanf(fp, "%d", &num) == 1) {
+        sum += num;
+        count++;
+    }
+
+    fclose(fp);
+
+    printf("Sum = %d\nAverage = %.2f\n", sum, (count ? (float)sum/count : 0));
+    return 0;
+}
+
+// Q130 — Store & read multiple student records
+#include <stdio.h>
+
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+
+int main() {
+    FILE *fp;
+    struct Student s;
+    int n, i;
+
+    fp = fopen("students.txt", "w");
+    printf("Enter number of students: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        printf("Enter name, roll, marks: ");
+        scanf("%s %d %f", s.name, &s.roll, &s.marks);
+        fprintf(fp, "%s %d %.2f\n", s.name, s.roll, s.marks);
+    }
+    fclose(fp);
+
+    fp = fopen("students.txt", "r");
+    printf("\nStored Records:\n");
+
+    while (fscanf(fp, "%s %d %f", s.name, &s.roll, &s.marks) == 3) {
+        printf("%s  %d  %.2f\n", s.name, s.roll, s.marks);
+    }
+
+    fclose(fp);
+    return 0;
+}
