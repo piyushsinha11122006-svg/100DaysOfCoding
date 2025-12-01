@@ -1,0 +1,148 @@
+// Q131 — Enum for days
+#include <stdio.h>
+
+enum Days { SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY };
+
+int main() {
+    for (int d = SUNDAY; d <= SATURDAY; d++)
+        printf("%d: %d\n", d, d);
+    return 0;
+}
+
+// Q132 — Traffic lights
+#include <stdio.h>
+
+enum Light { RED, YELLOW, GREEN };
+
+int main() {
+    enum Light signal = RED;
+
+    if (signal == RED) printf("Stop\n");
+    else if (signal == YELLOW) printf("Wait\n");
+    else printf("Go\n");
+
+    return 0;
+}
+
+// Q133 — Enum months & days
+#include <stdio.h>
+
+enum Month { JAN=1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
+
+int main() {
+    int days[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+    
+    for (int m = JAN; m <= DEC; m++)
+        printf("Month %d has %d days\n", m, days[m]);
+
+    return 0;
+}
+
+// Q134 — SUCCESS, FAILURE, TIMEOUT
+#include <stdio.h>
+
+enum Status { SUCCESS, FAILURE, TIMEOUT };
+
+int main() {
+    enum Status s = TIMEOUT;
+
+    switch (s) {
+        case SUCCESS: printf("Operation Successful!\n"); break;
+        case FAILURE: printf("Operation Failed!\n"); break;
+        case TIMEOUT: printf("Operation Timed Out!\n"); break;
+    }
+
+    return 0;
+}
+
+// Q135 — Explicit values starting from 10
+#include <stdio.h>
+
+enum Numbers { A = 10, B, C, D };
+
+int main() {
+    printf("%d %d %d %d\n", A, B, C, D);
+    return 0;
+}
+
+// Q136 — Enum menu choices
+#include <stdio.h>
+
+enum Menu { ADD = 1, SUBTRACT, MULTIPLY };
+
+int main() {
+    int choice, a, b;
+
+    printf("1.Add  2.Subtract  3.Multiply\nEnter choice: ");
+    scanf("%d", &choice);
+
+    printf("Enter two numbers: ");
+    scanf("%d %d", &a, &b);
+
+    switch(choice) {
+        case ADD: printf("Result = %d\n", a + b); break;
+        case SUBTRACT: printf("Result = %d\n", a - b); break;
+        case MULTIPLY: printf("Result = %d\n", a * b); break;
+        default: printf("Invalid choice\n");
+    }
+    return 0;
+}
+
+// Q137 — User roles
+#include <stdio.h>
+
+enum Role { ADMIN, USER, GUEST };
+
+int main() {
+    enum Role r = USER;
+
+    switch (r) {
+        case ADMIN: printf("You have full access.\n"); break;
+        case USER:  printf("You have limited access.\n"); break;
+        case GUEST: printf("You have guest access.\n"); break;
+    }
+    return 0;
+}
+
+// Q138 — Print all enum values in loop
+#include <stdio.h>
+
+enum Color { RED2, GREEN2, BLUE2, YELLOW2 };
+
+int main() {
+    for (int c = RED2; c <= YELLOW2; c++)
+        printf("Enum value: %d\n", c);
+    return 0;
+}
+
+// Q139 — Show enums are integers
+#include <stdio.h>
+
+enum Example { X=3, Y=7, Z=12 };
+
+int main() {
+    printf("X=%d Y=%d Z=%d\n", X, Y, Z);
+    return 0;
+}
+
+// Q140 — Struct with enum Gender
+#include <stdio.h>
+
+enum Gender { MALE, FEMALE, OTHER };
+
+struct Person {
+    char name[50];
+    enum Gender g;
+};
+
+int main() {
+    struct Person p = {"Rahul", MALE};
+
+    printf("Name: %s\n", p.name);
+
+    if (p.g == MALE) printf("Gender: Male\n");
+    else if (p.g == FEMALE) printf("Gender: Female\n");
+    else printf("Gender: Other\n");
+
+    return 0;
+}
