@@ -1,0 +1,249 @@
+// Q141 — Structure Student (read & print one student)
+#include <stdio.h>
+
+struct Student {
+    char name[50];
+    int roll_no;
+    float marks;
+};
+
+int main() {
+    struct Student s;
+
+    printf("Enter name: ");
+    scanf("%s", s.name);
+
+    printf("Enter roll number: ");
+    scanf("%d", &s.roll_no);
+
+    printf("Enter marks: ");
+    scanf("%f", &s.marks);
+
+    printf("\n--- Student Details ---\n");
+    printf("Name: %s\nRoll: %d\nMarks: %.2f\n", s.name, s.roll_no, s.marks);
+
+    return 0;
+}
+
+// Q142 — Store 5 students in array of structures
+#include <stdio.h>
+
+struct Student {
+    char name[50];
+    int roll_no;
+    float marks;
+};
+
+int main() {
+    struct Student s[5];
+
+    for (int i = 0; i < 5; i++) {
+        printf("Enter name, roll, marks of student %d: ", i+1);
+        scanf("%s %d %f", s[i].name, &s[i].roll_no, &s[i].marks);
+    }
+
+    printf("\n--- Student Records ---\n");
+    for (int i = 0; i < 5; i++) {
+        printf("%s  %d  %.2f\n", s[i].name, s[i].roll_no, s[i].marks);
+    }
+
+    return 0;
+}
+
+// Q143 — Student with highest marks
+#include <stdio.h>
+
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+
+int main() {
+    struct Student s[5];
+    int i, top = 0;
+
+    for (i = 0; i < 5; i++) {
+        printf("Enter name, roll, marks of student %d: ", i+1);
+        scanf("%s %d %f", s[i].name, &s[i].roll, &s[i].marks);
+    }
+
+    for (i = 1; i < 5; i++) {
+        if (s[i].marks > s[top].marks)
+            top = i;
+    }
+
+    printf("\nTop Student:\n");
+    printf("%s  %d  %.2f\n", s[top].name, s[top].roll, s[top].marks);
+
+    return 0;
+}
+
+// Q144 — Function that accepts structure and prints members
+#include <stdio.h>
+
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+
+void display(struct Student s) {
+    printf("\n--- Student Data ---\n");
+    printf("Name: %s\nRoll: %d\nMarks: %.2f\n", s.name, s.roll, s.marks);
+}
+
+int main() {
+    struct Student s;
+
+    printf("Enter name, roll, marks: ");
+    scanf("%s %d %f", s.name, &s.roll, &s.marks);
+
+    display(s);
+
+    return 0;
+}
+
+// Q145 — Function returns structure (top student)
+#include <stdio.h>
+
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+
+struct Student getTop(struct Student s[], int n) {
+    int top = 0;
+    for (int i = 1; i < n; i++)
+        if (s[i].marks > s[top].marks)
+            top = i;
+    return s[top];
+}
+
+int main() {
+    struct Student s[5], topper;
+
+    for (int i = 0; i < 5; i++) {
+        printf("Enter name, roll, marks of student %d: ", i+1);
+        scanf("%s %d %f", s[i].name, &s[i].roll, &s[i].marks);
+    }
+
+    topper = getTop(s, 5);
+
+    printf("\nTop Student:\n%s %d %.2f\n", topper.name, topper.roll, topper.marks);
+
+    return 0;
+}
+
+// Q146 — Employee with nested Date structure
+#include <stdio.h>
+
+struct Date {
+    int day, month, year;
+};
+
+struct Employee {
+    char name[50];
+    int id;
+    struct Date joining;
+};
+
+int main() {
+    struct Employee e;
+
+    printf("Enter name and id: ");
+    scanf("%s %d", e.name, &e.id);
+
+    printf("Enter joining date (dd mm yyyy): ");
+    scanf("%d %d %d", &e.joining.day, &e.joining.month, &e.joining.year);
+
+    printf("\n--- Employee Details ---\n");
+    printf("Name: %s\nID: %d\nJoining: %02d-%02d-%04d\n",
+           e.name, e.id, e.joining.day, e.joining.month, e.joining.year);
+
+    return 0;
+}
+
+// Q147 — Store employee data in binary file (fwrite & fread)
+#include <stdio.h>
+
+struct Employee {
+    char name[50];
+    int id;
+    float salary;
+};
+
+int main() {
+    struct Employee e1, e2;
+    FILE *fp;
+
+    printf("Enter name, id, salary: ");
+    scanf("%s %d %f", e1.name, &e1.id, &e1.salary);
+
+    fp = fopen("emp.dat", "wb");
+    fwrite(&e1, sizeof(e1), 1, fp);
+    fclose(fp);
+
+    fp = fopen("emp.dat", "rb");
+    fread(&e2, sizeof(e2), 1, fp);
+    fclose(fp);
+
+    printf("\n--- Employee Data from File ---\n");
+    printf("%s %d %.2f\n", e2.name, e2.id, e2.salary);
+
+    return 0;
+}
+
+// Q148 — Compare two structures
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+
+int main() {
+    struct Student a, b;
+
+    printf("Enter first student's name, roll, marks: ");
+    scanf("%s %d %f", a.name, &a.roll, &a.marks);
+
+    printf("Enter second student's name, roll, marks: ");
+    scanf("%s %d %f", b.name, &b.roll, &b.marks);
+
+    if (strcmp(a.name, b.name)==0 && a.roll == b.roll && a.marks == b.marks)
+        printf("Both structures are identical.\n");
+    else
+        printf("Structures are NOT identical.\n");
+
+    return 0;
+}
+
+// Q149 — Dynamic memory allocation for structure (malloc)
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+
+int main() {
+    struct Student *s;
+
+    s = (struct Student*) malloc(sizeof(struct Student));
+
+    printf("Enter name, roll, marks: ");
+    scanf("%s %d %f", s->name, &s->roll, &s->marks);
+
+    printf("\n--- Student Details ---\n");
+    printf("%s  %d  %.2f\n", s->name, s->roll, s->marks);
+
+    free(s);
+
+    return 0;
+}
